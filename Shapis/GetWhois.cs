@@ -9,7 +9,7 @@ namespace Shapis
     /// <summary>
     /// Get a WHOIS for a given domain.
     /// </summary>
-    class GetWhois
+    public class GetWhois
     {
         private WhoisRecord getServer(WhoisRecord record)
         {
