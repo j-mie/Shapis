@@ -1,13 +1,13 @@
 ﻿using System;
 using Shapis;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ShapisTests
 {
-    [TestClass]
+    [TestFixture]
     public class Test
     {
-        [TestMethod]
+        [Test]
         public void LookupExampleDomain()
         {
             var rec = WhoisLookup.Lookup("jamiehankins.co.uk");
