@@ -5,3 +5,4 @@ install:
 - sudo apt-get install --force-yes mono-devel mono-gmcs nunit-console
 script:
 - xbuild ./Shapis.sln
+- nunit-console ./ShapisTests/bin/Debug/ShapisTests.dll -exclude Integration,NotWorkingOnMono
