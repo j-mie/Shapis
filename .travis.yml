@@ -1,6 +1,6 @@
 language: c
 install:
-- echo "nameserver 8.8.8.8" > /etc/resolv.conf
+- sudo echo "nameserver 8.8.8.8" > /etc/resolv.conf
 - sudo add-apt-repository -y ppa:directhex/monoxide
 - sudo apt-get update
 - sudo apt-get install --force-yes mono-devel mono-gmcs nunit-console
