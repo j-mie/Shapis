@@ -1,46 +1,41 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shapis
 {
-    public class TCPClient
+    class TCPClient
     {
         #region Private
-        private System.Net.Sockets.TcpClient client;
+        private TcpClient _client;
 
-        private StreamReader reader;
-        private StreamWriter writer;
+        private StreamReader _reader;
+        private StreamWriter _writer;
 
         private bool Connect(string domain, int port)
         {
             try
             {
-                client = new System.Net.Sockets.TcpClient();
-                client.Connect(domain, port);
-                reader = new StreamReader(client.GetStream());
-                writer = new StreamWriter(client.GetStream()) { NewLine = "\r\n" };
+                _client = new TcpClient();
+                _client.Connect(domain, port);
+                _reader = new StreamReader(_client.GetStream());
+                _writer = new StreamWriter(_client.GetStream()) { NewLine = "\r\n" };
             }
             catch (Exception ex)
             {
                 throw new ApplicationException(string.Format("Couldn't connect to {0}:{1} with reason {2}", domain, port,
                     ex));
             }
-            return client.Connected;
+            return _client.Connected;
         }
 
         private void Write(string text)
         {
             try
             {
-                writer.WriteLine(text);
-                writer.Flush();
+                _writer.WriteLine(text);
+                _writer.Flush();
             }
             catch (Exception)
             {
@@ -54,12 +49,12 @@ namespace Shapis
 
             try
             {
-                var response = reader.ReadLine();
+                var response = _reader.ReadLine();
 
                 while (response != null)
                 {
                     list.Add(response);
-                    response = reader.ReadLine();
+                    response = _reader.ReadLine();
                 }
             }
             catch (Exception ex)
@@ -76,7 +71,7 @@ namespace Shapis
         /// </summary>
         public void TcpReader()
         {
-            client = new TcpClient();
+            _client = new TcpClient();
         }
 
         /// <summary>
@@ -107,11 +102,11 @@ namespace Shapis
         /// </summary>
         public void Dispose()
         {
-            if (client != null)
+            if (_client != null)
             {
-                if (client.Connected)
+                if (_client.Connected)
                 {
-                    client.Close();
+                    _client.Close();
                 }
             }
         }

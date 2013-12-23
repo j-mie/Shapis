@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shapis
+﻿namespace Shapis
 {
     /// <summary>
     /// Get a WHOIS for a given domain.
     /// </summary>
-    public class GetWhois
+    class GetWhois
     {
         private WhoisRecord getServer(WhoisRecord record)
         {
