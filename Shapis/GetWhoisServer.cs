@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Shapis
 {
@@ -10,12 +14,70 @@ namespace Shapis
     class GetWhoisServer
     {
         /// <summary>
+        /// Get embedded resource http://www.vcskicks.com/embedded-resource.php
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <param name="resourceName"></param>
+        /// <returns></returns>
+        private static string FormatResourceName(Assembly assembly, string resourceName)
+        {
+            return assembly.GetName().Name + "." + resourceName.Replace(" ", "_")
+                                                               .Replace("\\", ".")
+                                                               .Replace("/", ".");
+        }
+        /// <summary>
+        /// Get embedded resource http://www.vcskicks.com/embedded-resource.php
+        /// </summary>
+        /// <param name="resourceName"></param>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
+        public static string GetEmbeddedResource(string resourceName, Assembly assembly)
+        {
+            resourceName = FormatResourceName(assembly, resourceName);
+            using (Stream resourceStream = assembly.GetManifestResourceStream(resourceName))
+            {
+                if (resourceStream == null)
+                    return null;
+
+                using (StreamReader reader = new StreamReader(resourceStream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        public static Dictionary<string, string> getLookupTable()
+        {
+            var dict = new Dictionary<string, string>();
+            var file = GetEmbeddedResource("tld_serv_list", Assembly.GetExecutingAssembly());
+            
+            string[] lines = Regex.Split(file, "\r\n");
+
+            foreach (string line in lines)
+            {
+                try
+                {
+                    var tld = line.Split('\t')[0];
+                    var server = line.Split('\t')[1];
+                    Console.WriteLine(tld + ":" + server);
+                }
+                catch
+                {
+                }
+
+            }
+            return dict;
+        }
+
+        /// <summary>
         /// Gets the TLD for a domain
         /// </summary>
         /// <param name="domain">Domain name</param>
         /// <returns></returns>
         public string GetTLD(string domain)
         {
+            getLookupTable();
+            Console.ReadLine();
             var tld = string.Empty;
 
             if (!string.IsNullOrEmpty(domain))
