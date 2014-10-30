@@ -1,4 +1,4 @@
-SharpIs [![Build Status](https://travis-ci.org/JamieH/Shapis.png?branch=master)](https://travis-ci.org/JamieH/Shapis)
+SharpIs [![Build status](https://ci.appveyor.com/api/projects/status/7r5331v7jr0lyw03?svg=true)](https://ci.appveyor.com/project/JamieH/shapis)
 =======
 
 WHOIS lookups for C#
